@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <nav class="mx-5 my-2 navbar fixed-top navbar-expand-lg">
+  <nav class="px-5 pt-3 navbar fixed-top navbar-expand-lg bg-white shadow-sm">
     <div class="container-fluid">
       <h1 class="navbar-brand">Where in the world?</h1>
       <button class="btn" >
@@ -10,7 +10,6 @@
       </button>
     </div>
   </nav>
-  <RouterView></RouterView>
 </template>
 
 <style scoped></style>

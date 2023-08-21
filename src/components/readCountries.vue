@@ -1,11 +1,10 @@
 <script setup>
-import Head from './Header.vue'
+import Head from "./Header.vue";
 </script>
 
 <template>
     <Head />
-    <router-link  :to="{ path: 'country'}"></router-link>   
+    <router-view></router-view>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
