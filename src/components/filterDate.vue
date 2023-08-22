@@ -1,12 +1,15 @@
 <script setup>
 import {ref} from "vue"
 const region=ref("all")
-const emit=defineEmits(['region'])
+const name=ref("")
+const emit=defineEmits(['region','name'])
 function sendRegion(){
-    console.log(region.value);
     emit('region', region)
 }
 sendRegion();
+function sendCountryName(){
+    emit('name', name)
+}
 </script>
 
 <template>
@@ -18,6 +21,8 @@ sendRegion();
           type="search"
           placeholder="Search for a country..."
           aria-label="Search"
+          @input="sendCountryName()"
+          v-model="name"
         />
       </div>
       <div class="col-3">
@@ -38,7 +43,6 @@ sendRegion();
       </div>
     </div>
   </nav>
-  <p>{{ region }}</p>
 </template>
 
 <style scoped></style>

@@ -3,8 +3,10 @@ import Show from "./showCountries.vue";
 import axios from "axios";
 import Filter from "./filterDate.vue";
 import { reactive,ref } from "vue";
-const data = reactive({});
-var region=ref("")
+var data = reactive({});
+var region=ref("");
+var name=ref("");
+var countries=reactive({});
 function getCountries() {
   let area=ref("all")
   if(region.value!=="all"){
@@ -17,6 +19,8 @@ function getCountries() {
     .then((response) => {
       console.log(response.data);
       data.value = response.data;
+      countries.value=response.data;
+      getCountryName(name);
       console.log(data);
     })
     .catch((error) => {
@@ -25,18 +29,18 @@ function getCountries() {
 }
 function getRegion( event){
     region.value=event.value;
-    console.log(event.value)
     getCountries();
 }
-
+function getCountryName( event){
+    name.value=event.value.replace(event.value.substring(0,1),event.value.substring(0,1).toUpperCase());
+    countries.value= data.value.filter((country) =>( country.name.common).startsWith(name.value))
+}
 </script>
-
 <template>
   <div class="py-5 my-4 px-5 bg-body-tertiary">
-    <Filter @region="getRegion" />
-    <p>{{ region }}</p>
+    <Filter @region="getRegion" @name="getCountryName" />
     <Show
-      v-for="(country, index) in data.value"
+      v-for="(country, index) in countries.value"
       :key="index"
       :country="country"
     />
