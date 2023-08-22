@@ -1,4 +1,13 @@
-<script setup></script>
+<script setup>
+import {ref} from "vue"
+const region=ref("all")
+const emit=defineEmits(['region'])
+function sendRegion(){
+    console.log(region.value);
+    emit('region', region)
+}
+sendRegion();
+</script>
 
 <template>
   <nav class="navbar navbar-expand-lg py-5">
@@ -15,18 +24,21 @@
         <select
           class="form-select form-select-lg shadow-sm"
           aria-label="Large select example"
+          @change="sendRegion()"
+          v-model="region"
         >
           <option disabled>Filter by Regions</option>
-          <option selected>All</option>
-          <option value="1">Africa</option>
-          <option value="2">America</option>
-          <option value="3">Asia</option>
-          <option value="4">Europe</option>
-          <option value="5">Oceania</option>
+          <option selected value="all">All</option>
+          <option value="africa">Africa</option>
+          <option value="america">America</option>
+          <option value="asia">Asia</option>
+          <option value="europe">Europe</option>
+          <option value="oceania">Oceania</option>
         </select>
       </div>
     </div>
   </nav>
+  <p>{{ region }}</p>
 </template>
 
 <style scoped></style>
