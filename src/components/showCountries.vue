@@ -1,9 +1,14 @@
 <script setup>
+import { useRouter } from 'vue-router';
 const props = defineProps(["country"]);
+var router=useRouter()
+function pushRoute(countryName){
+  router.push({ name:'show-country', params: { country: `${countryName}` } })
+}
 </script>
 
 <template>
-  <div class="col-12 col-sm-6 col-md-4 col-xl-3 g-5 px-md-3">
+  <div class="col-12 col-sm-6 col-md-4 col-xl-3 g-5 px-md-3"  @click="pushRoute(country.cca3)">
     <div class="mb-3">
       <div class="card bg-white" >
         <img :src="country.flags.png" alt="flags"   class="card-img-top object-fit-cover" style="height: 180px;"/>
@@ -15,7 +20,6 @@ const props = defineProps(["country"]);
         </div>
       </div>
     </div>
-    <router-link :to="{ name: 'show-country' }"></router-link>
   </div>
 </template>
 

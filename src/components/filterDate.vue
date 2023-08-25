@@ -16,7 +16,7 @@ function sendCountryName(){
   <nav class="navbar navbar-expand-lg">
     <div class="row container-fluid">
       <div class="col-12 col-sm-6 col-xl-4 position-relative">
-        <ion-icon name="search-outline" class="position-absolute" style="top:1rem; left:2rem"></ion-icon>
+        <ion-icon name="search-outline" class="position-absolute" style="top:1rem; left:2rem;"></ion-icon>
         <input
           class="form-control form-control-lg shadow-sm"
           type="search"

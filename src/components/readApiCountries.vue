@@ -14,7 +14,7 @@ function getCountries() {
   }
   axios
     .get(
-      `https://restcountries.com/v3.1/${area.value}?fields=name,borders,capital,region,population,flags`
+      `https://restcountries.com/v3.1/${area.value}?fields=name,borders,cca3,capital,region,population,flags`
     )
     .then((response) => {
       console.log(response.data);

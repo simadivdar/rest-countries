@@ -14,7 +14,7 @@ const routes = [
             component: Read,
         },
       {
-        path: "/country",
+        path: "/:country",
         name: "show-country",
         component: Show,
       },
