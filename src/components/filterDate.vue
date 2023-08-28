@@ -18,9 +18,9 @@ function sendCountryName(){
       <div class="col-12 col-sm-6 col-xl-4 position-relative">
         <ion-icon name="search-outline" class="position-absolute" style="top:1rem; left:2rem;"></ion-icon>
         <input
-          class="form-control form-control-lg shadow-sm"
+          class="form-control form-control-lg shadow-sm ps-5"
           type="search"
-          placeholder="      Search for a country..."
+          placeholder="Search for a country..."
           aria-label="Search"
           @input="sendCountryName()"
           v-model="name"

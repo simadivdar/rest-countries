@@ -3,9 +3,11 @@ import Show from "./showCountries.vue";
 import axios from "axios";
 import Filter from "./filterDate.vue";
 import { reactive, ref } from "vue";
+const emit=defineEmits(['borders']);
 var data = reactive({});
 var region = ref("");
 var name = ref("");
+var borders = reactive({});
 var countries = reactive({});
 function getCountries() {
   let area = ref("all");
@@ -21,6 +23,7 @@ function getCountries() {
       data.value = response.data;
       countries.value = response.data;
       getCountryName(name);
+      setBorders(countries);
       console.log(data);
     })
     .catch((error) => {
@@ -40,6 +43,14 @@ function getCountryName(event) {
     country.name.common.startsWith(name.value)
   );
 }
+function setBorders(countries) {
+  borders.value = countries.value.map((border) => ({
+    [border.cca3]: border.name.common,
+  }));
+  var bo = ["BWA", "LSO", "MOZ", "NAM", "SWZ", "ZWE"];
+  borders = JSON.stringify(borders.value);
+  emit('borders',borders.value);
+}
 </script>
 <template>
   <div class="py-5 my-5 px-2 px-md-5 bg-body-tertiary">
@@ -49,6 +60,7 @@ function getCountryName(event) {
         v-for="(country, index) in countries.value"
         :key="index"
         :country="country"
+        :borders="borders"
       />
     </div>
   </div>
