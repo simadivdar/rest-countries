@@ -1,9 +1,11 @@
 <script setup>
 import { reactive, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 const route = useRoute();
-const country = route.params.country;
+var router = useRouter();
+var country = route.params.country;
+console.log(route.params);
 var data = reactive({});
 onMounted(() => {
   axios
@@ -11,39 +13,115 @@ onMounted(() => {
     .then((response) => {
       data.value = response.data[0];
       console.log(data.value);
+      data.value.currencies = Object.values(data.value.currencies);
+      data.value.name.nativeName = Object.values(data.value.name.nativeName);
+      data.value.languages=Object.values(data.value.languages).toLocaleString()
     })
     .catch((error) => {
       console.log(error);
     });
 });
+function pushRoute(countryName) {
+  router.push({
+    name: "show-country",
+    params: { country: `${countryName}` },
+    replace: true,
+  });
+}
 </script>
 
 <template>
-  <div v-if="data.value" class="vh-100 d-flex justify-content-center align-items-center">
-    <div class="row container-fluid">
-      <div class="d-flex justify-content-center">
-        <div class="col-2 col-md-4 ">
+  <div
+    v-if="data.value"
+    class="vh-100 row container-fluid d-flex justify-content-center align-items-center flex-column"
+  >
+    <div class="row  d-flex justify-content-center">
+      <div class="col-10 col-lg-11">
+        <router-link to="/" class="btn border col-4 col-lg-1 mb-5"
+          ><ion-icon name="arrow-back-outline" class="me-2"></ion-icon
+          >Back</router-link
+        >
+      </div>
+    </div>
+    <div class="">
+      <div class="row d-flex justify-content-center">
+        <div class="col-10 col-lg-4">
           <img
             :src="data.value.flags.png"
             alt="flags"
-            class="object-fit-cover"
-            style="height: 180px"
+            class="w-100"
+            style="height: 320px"
           />
         </div>
-        <div class="col-2 col-md-4" style="height: 160px">
-          <h5 class="">{{ data.value.name.common }}</h5>
-          <div>
-            <span>Population : </span><span>{{ data.value.population }}</span>
+        <div class="col-lg-1"></div>
+        <div class="col-10 col-lg-6">
+          <h5 class="fw-bolder fs-3 mt-5 mt-lg-2">{{ data.value.name.common }}</h5>
+          <div
+            class="d-block d-lg-flex justify-content-between align-items-center"
+          >
+            <div class="lh-lg col-5">
+              <div>
+                <span class="fw-bolder">Native Name: </span
+                ><span>
+                  {{
+                    data.value.name.nativeName[
+                      data.value.name.nativeName.length - 1
+                    ].common
+                  }}</span
+                >
+              </div>
+              <div>
+                <span class="fw-bolder">Population: </span
+                ><span>{{ data.value.population.toLocaleString() }}</span>
+              </div>
+              <div>
+                <span class="fw-bolder">Region: </span
+                ><span>{{ data.value.region }}</span>
+              </div>
+              <div>
+                <span class="fw-bolder">sub Region: </span
+                ><span>{{ data.value.subregion }}</span>
+              </div>
+              <div>
+                <span class="fw-bolder">Capital: </span
+                ><span>{{ data.value.capital[0] }}</span>
+              </div>
+            </div>
+            <div class="lh-lg col-5">
+              <div class=" mt-4 mt-lg-0">
+                <span class="fw-bolder">Top Level Domain: </span
+                ><span>{{ data.value.tld[0] }}</span>
+              </div>
+              <div>
+                <span class="fw-bolder">Currencies: </span
+                ><span> {{ data.value.currencies[0].name }}</span>
+              </div>
+              <div class="text-break">
+                <span class="fw-bolder">Languages: </span
+                ><span v-for="lang in data.value.languages">{{ lang }}</span>
+              </div>
+            </div>
           </div>
-          <div>
-            <span>Region : </span><span>{{ data.value.region }}</span>
-          </div>
-          <div>
-            <span>Capital : </span><span>{{ data.value.capital[0] }}</span>
+          <div class="pt-4">
+            <span class="fw-bolder">Border Countries: </span
+            ><span v-for="border in data.value.borders" class=""
+              ><button @click="pushRoute(border)" class="btn border mx-1 px-3">
+                {{ border }}
+              </button></span
+            >
+            <span v-if="!data.value.borders" class="fs-5"
+              >This country has no borders countries...!</span
+            >
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+@media (min-width: 992px) {
+  .margin {
+    margin-left: 100px;
+  }
+}
+</style>
