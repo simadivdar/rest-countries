@@ -70,11 +70,13 @@ function setBorders(countries) {
     </div>
     <div v-else class="row d-flex justify-content-center">
       <Show
+        v-if="countries.value.length"
         v-for="(country, index) in countries.value"
         :key="index"
         :country="country"
         :borders="borders"
       />
+      <div v-else class="row d-flex justify-content-center pt-5 fs-4">No country found..!</div>
     </div>
   </div>
 </template>
