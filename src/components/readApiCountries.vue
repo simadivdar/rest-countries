@@ -3,9 +3,10 @@ import Show from "./showCountries.vue";
 import axios from "axios";
 import Filter from "./filterDate.vue";
 import { reactive, ref } from "vue";
-const emit=defineEmits(['borders']);
+const emit = defineEmits(["borders"]);
 var data = reactive({});
 var region = ref("");
+const pageLoading = ref("true");
 var name = ref("");
 var borders = reactive({});
 var countries = reactive({});
@@ -25,6 +26,7 @@ function getCountries() {
       getCountryName(name);
       setBorders(countries);
       console.log(data);
+      pageLoading.value = false;
     })
     .catch((error) => {
       console.log(error);
@@ -49,13 +51,24 @@ function setBorders(countries) {
   }));
   var bo = ["BWA", "LSO", "MOZ", "NAM", "SWZ", "ZWE"];
   borders = JSON.stringify(borders.value);
-  emit('borders',borders.value);
+  emit("borders", borders.value);
 }
 </script>
 <template>
   <div class="py-5 my-5 px-2 px-md-5 bg-body-tertiary">
     <Filter @region="getRegion" @name="getCountryName" />
-    <div class="row d-flex justify-content-center">
+    <div
+      v-if="pageLoading"
+      class="d-flex justify-content-center justify-content-evenly mt-5"
+    >
+      <p class="">Please wait...!</p>
+      <div class="spinner-border text-secondary" role="status"></div>
+      <button @click="getCountries()" class="btn btn-secondary" type="button">
+        <span class=""></span>
+        Try again
+      </button>
+    </div>
+    <div v-else class="row d-flex justify-content-center">
       <Show
         v-for="(country, index) in countries.value"
         :key="index"

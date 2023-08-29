@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted } from "vue";
+import { reactive,ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 const route = useRoute();
@@ -7,7 +7,9 @@ var router = useRouter();
 var country = route.params.country;
 console.log(route.params);
 var data = reactive({});
-onMounted(() => {
+const pageLoading = ref("true");
+const danger = ref("false");
+function getCountry(){
   axios
     .get(`https://restcountries.com/v3.1/alpha?codes=${country}`)
     .then((response) => {
@@ -15,12 +17,17 @@ onMounted(() => {
       console.log(data.value);
       data.value.currencies = Object.values(data.value.currencies);
       data.value.name.nativeName = Object.values(data.value.name.nativeName);
-      data.value.languages=Object.values(data.value.languages).toLocaleString()
+      data.value.languages = Object.values(
+        data.value.languages
+      ).toLocaleString();
+      pageLoading.value = false;
     })
     .catch((error) => {
       console.log(error);
+      danger.value=true;
     });
-});
+};
+getCountry();
 function pushRoute(countryName) {
   router.push({
     name: "show-country",
@@ -32,10 +39,9 @@ function pushRoute(countryName) {
 
 <template>
   <div
-    v-if="data.value"
     class="vh-100 row container-fluid d-flex justify-content-center align-items-center flex-column"
   >
-    <div class="row  d-flex justify-content-center">
+    <div class="row d-flex justify-content-center">
       <div class="col-10 col-lg-11">
         <router-link to="/" class="btn border col-4 col-lg-1 mb-5"
           ><ion-icon name="arrow-back-outline" class="me-2"></ion-icon
@@ -43,7 +49,19 @@ function pushRoute(countryName) {
         >
       </div>
     </div>
-    <div class="">
+    <div
+      v-if="pageLoading"
+      class="d-flex justify-content-center align-items-center justify-content-evenly mt-5 pt-5"
+    >
+      <div class="spinner-border text-secondary" role="status"></div>
+      <div v-if="danger">
+        <p>There was a problem sending your request</p>
+      <button @click="getCountry()" class="btn btn-secondary" type="button">
+        Try again
+      </button>
+    </div>
+    </div>
+    <div v-else class="">
       <div class="row d-flex justify-content-center">
         <div class="col-10 col-lg-4">
           <img
@@ -55,7 +73,9 @@ function pushRoute(countryName) {
         </div>
         <div class="col-lg-1"></div>
         <div class="col-10 col-lg-6">
-          <h5 class="fw-bolder fs-3 mt-5 mt-lg-2">{{ data.value.name.common }}</h5>
+          <h5 class="fw-bolder fs-3 mt-5 mt-lg-2">
+            {{ data.value.name.common }}
+          </h5>
           <div
             class="d-block d-lg-flex justify-content-between align-items-center"
           >
@@ -88,7 +108,7 @@ function pushRoute(countryName) {
               </div>
             </div>
             <div class="lh-lg col-5">
-              <div class=" mt-4 mt-lg-0">
+              <div class="mt-4 mt-lg-0">
                 <span class="fw-bolder">Top Level Domain: </span
                 ><span>{{ data.value.tld[0] }}</span>
               </div>
