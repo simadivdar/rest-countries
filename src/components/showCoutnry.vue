@@ -1,15 +1,17 @@
 <script setup>
-import { reactive,ref } from "vue";
+import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 const route = useRoute();
 var router = useRouter();
+const props = defineProps(["border"]);
 var country = route.params.country;
 console.log(route.params);
 var data = reactive({});
+var borderCountries = reactive({});
 const pageLoading = ref("true");
 const danger = ref("false");
-function getCountry(){
+function getCountry() {
   axios
     .get(`https://restcountries.com/v3.1/alpha?codes=${country}`)
     .then((response) => {
@@ -21,12 +23,13 @@ function getCountry(){
         data.value.languages
       ).toLocaleString();
       pageLoading.value = false;
+      setBorders(data.value.borders);
     })
     .catch((error) => {
       console.log(error);
-      danger.value=true;
+      danger.value = true;
     });
-};
+}
 getCountry();
 function pushRoute(countryName) {
   router.push({
@@ -35,11 +38,18 @@ function pushRoute(countryName) {
     replace: true,
   });
 }
+function setBorders(event) {
+  console.log(props.border)
+  borderCountries.value = props.border.value.filter((border) =>
+    event.includes(border.cca3)
+  );
+  console.log(borderCountries);
+}
 </script>
 
 <template>
   <div
-    class="vh-100 row container-fluid d-flex justify-content-center align-items-center flex-column"
+    class="row container-fluid d-flex justify-content-center align-items-center flex-column pt-5 mt-5"
   >
     <div class="row d-flex justify-content-center">
       <div class="col-10 col-lg-11">
@@ -56,10 +66,10 @@ function pushRoute(countryName) {
       <div class="spinner-border text-secondary" role="status"></div>
       <div v-if="danger">
         <p>There was a problem sending your request</p>
-      <button @click="getCountry()" class="btn btn-secondary" type="button">
-        Try again
-      </button>
-    </div>
+        <button @click="getCountry()" class="btn btn-secondary" type="button">
+          Try again
+        </button>
+      </div>
     </div>
     <div v-else class="">
       <div class="row d-flex justify-content-center">
@@ -122,11 +132,11 @@ function pushRoute(countryName) {
               </div>
             </div>
           </div>
-          <div class="pt-4">
+          <div class="pt-4 ">
             <span class="fw-bolder">Border Countries: </span
-            ><span v-for="border in data.value.borders" class=""
-              ><button @click="pushRoute(border)" class="btn border mx-1 px-3">
-                {{ border }}
+            ><span v-for="bord in borderCountries.value" class=""
+              ><button @click="pushRoute(bord.cca3)" class="btn border m-1" style="padding: 2px 18px;">
+                {{ bord.name }}
               </button></span
             >
             <span v-if="!data.value.borders" class="fs-5"

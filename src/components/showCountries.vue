@@ -4,7 +4,6 @@ const props = defineProps(["country"]);
 var router = useRouter();
 function pushRoute(countryName) {
   router.push({ name: "show-country", params: { country: `${countryName}` } });
-
 }
 
 </script>

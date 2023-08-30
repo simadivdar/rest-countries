@@ -8,7 +8,7 @@ var data = reactive({});
 var region = ref("");
 const pageLoading = ref("true");
 var name = ref("");
-var borders = reactive({});
+var borders = reactive([]);
 var countries = reactive({});
 function getCountries() {
   let area = ref("all");
@@ -47,11 +47,10 @@ function getCountryName(event) {
 }
 function setBorders(countries) {
   borders.value = countries.value.map((border) => ({
-    [border.cca3]: border.name.common,
+    cca3: border.cca3,
+    name: border.name.common,
   }));
-  var bo = ["BWA", "LSO", "MOZ", "NAM", "SWZ", "ZWE"];
-  borders = JSON.stringify(borders.value);
-  emit("borders", borders.value);
+  emit("borders", borders);
 }
 </script>
 <template>
@@ -74,9 +73,10 @@ function setBorders(countries) {
         v-for="(country, index) in countries.value"
         :key="index"
         :country="country"
-        :borders="borders"
       />
-      <div v-else class="row d-flex justify-content-center pt-5 fs-4">No country found..!</div>
+      <div v-else class="row d-flex justify-content-center pt-5 fs-4">
+        No country found..!
+      </div>
     </div>
   </div>
 </template>
