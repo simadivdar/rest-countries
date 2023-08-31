@@ -15,15 +15,15 @@ function pushRoute(countryName) {
     @click="pushRoute(country.cca3)"
   >
     <div class="mb-3">
-      <div class="card bg-white">
+      <div class="shadow-sm modeElement rounded">
         <img
           :src="country.flags.png"
           alt="flags"
           class="card-img-top object-fit-cover"
           style="height: 180px"
         />
-        <div class="card-body" style="height: 160px">
-          <h5 class="card-title my-2 fw-bolder">{{ country.name.common }}</h5>
+        <div class="p-4" style="height: 160px">
+          <h5 class="fw-bolder">{{ country.name.common }}</h5>
           <div>
             <span class="weight">Population : </span
             ><span>{{ country.population.toLocaleString() }}</span>

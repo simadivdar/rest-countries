@@ -1,18 +1,44 @@
+:root {
+  --background-color: hsl(0, 0%, 98%) !important;
+  --background-color-element:  hsl(0, 0%, 100%) !important;
+  --text-color: hsl(200, 15%, 8%) !important;  
+}
+
+[data-theme='darkMode'] {
+  --background-color: hsl(207, 26%, 17%) !important;
+  --background-color-element:  hsl(209, 23%, 22%)!important;
+  --text-color: hsl(0, 0%, 100%) !important;   
+}
 body {
   font-family: 'Nunito Sans', sans-serif !important;
 }
 .weight{
   font-weight: 600;
+
 }
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.mode{
+  color: var(--text-color);
+  background-color:var(--background-color) ;
+}
+.modeInput,.modeSelect,.modeButton,.modeElement{
+  background-color:var(--background-color-element) ;
+  color: var(--text-color);
+}
+.modeInput,.modeSelect{
+  width: 100%;
+  height: 4rem;
+  border-radius:.75rem;
+  padding-left:1rem;
+  padding-right: 2rem;
+  border: 0px;
+}
+.link{
+  text-decoration:none;
+}
+.modeInput{
+ padding-left: 3rem;
+ border-radius: .25rem;
+}
+.modeButton{
+  border: 0px;
 }

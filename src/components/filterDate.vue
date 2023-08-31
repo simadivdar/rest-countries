@@ -16,9 +16,9 @@ function sendCountryName(){
   <nav class="navbar navbar-expand-lg">
     <div class="row container-fluid">
       <div class="col-12 col-sm-6 col-xl-4 position-relative">
-        <ion-icon name="search-outline" class="position-absolute" style="top:1rem; left:2rem;"></ion-icon>
+        <ion-icon name="search-outline" class="position-absolute" style="top:1.5rem; left:2rem;"></ion-icon>
         <input
-          class="form-control form-control-lg shadow-sm ps-5"
+          class="modeInput shadow-sm"
           type="search"
           placeholder="Search for a country..."
           aria-label="Search"
@@ -26,20 +26,20 @@ function sendCountryName(){
           v-model="name"
         />
       </div>
-      <div class="col-8 col-sm-6 col-md-4 col-xl-3">
+      <div class="col-8 col-sm-6 col-md-4 col-xl-3 pt-4 pt-sm-0">
         <select
-          class="form-select form-select-lg shadow-sm"
+          class="modeSelect shadow-sm"
           aria-label="Large select example"
           @change="sendRegion()"
           v-model="region"
         >
-          <option disabled>Filter by Regions</option>
-          <option selected value="all">All</option>
-          <option value="africa">Africa</option>
-          <option value="america">America</option>
-          <option value="asia">Asia</option>
-          <option value="europe">Europe</option>
-          <option value="oceania">Oceania</option>
+          <option disabled class="modeElement">Filter by Regions</option>
+          <option selected value="all" class="modeElement">All</option>
+          <option value="africa" class="modeElement">Africa</option>
+          <option value="america" class="modeElement">America</option>
+          <option value="asia" class="modeElement">Asia</option>
+          <option value="europe" class="modeElement">Europe</option>
+          <option value="oceania" class="modeElement">Oceania</option>
         </select>
       </div>
     </div>

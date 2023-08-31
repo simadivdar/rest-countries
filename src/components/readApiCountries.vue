@@ -20,12 +20,10 @@ function getCountries() {
       `https://restcountries.com/v3.1/${area.value}?fields=name,borders,cca3,capital,region,population,flags`
     )
     .then((response) => {
-      console.log(response.data);
       data.value = response.data;
       countries.value = response.data;
       getCountryName(name);
       setBorders(countries);
-      console.log(data);
       pageLoading.value = false;
     })
     .catch((error) => {
@@ -54,15 +52,15 @@ function setBorders(countries) {
 }
 </script>
 <template>
-  <div class="py-5 my-5 px-2 px-md-5 bg-body-tertiary">
-    <Filter @region="getRegion" @name="getCountryName" />
+  <div class="px-2 px-md-5 mode" style="padding-top: 8rem;" >
+    <Filter @region="getRegion" @name="getCountryName"/>
     <div
       v-if="pageLoading"
-      class="d-flex justify-content-center justify-content-evenly mt-5"
+      class="vh-100 d-flex justify-content-center justify-content-evenly mt-5"
     >
       <p class="">Please wait...!</p>
       <div class="spinner-border text-secondary" role="status"></div>
-      <button @click="getCountries()" class="btn btn-secondary" type="button">
+      <button @click="getCountries()" class="modeButton p-2 rounded" type="button" style=" height: 3rem;">
         <span class=""></span>
         Try again
       </button>
@@ -74,7 +72,7 @@ function setBorders(countries) {
         :key="index"
         :country="country"
       />
-      <div v-else class="row d-flex justify-content-center pt-5 fs-4">
+      <div v-else class="vh-100 row d-flex justify-content-center pt-5 fs-4">
         No country found..!
       </div>
     </div>
