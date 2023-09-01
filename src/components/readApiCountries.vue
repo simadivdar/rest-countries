@@ -56,7 +56,7 @@ function setBorders(countries) {
     <Filter @region="getRegion" @name="getCountryName"/>
     <div
       v-if="pageLoading"
-      class="vh-100 d-flex justify-content-center justify-content-evenly mt-5"
+      class="min-vh-100 d-flex justify-content-center justify-content-evenly mt-5"
     >
       <p class="">Please wait...!</p>
       <div class="spinner-border text-secondary" role="status"></div>
@@ -72,7 +72,7 @@ function setBorders(countries) {
         :key="index"
         :country="country"
       />
-      <div v-else class="vh-100 row d-flex justify-content-center pt-5 fs-4">
+      <div v-else class="min-vh-100 row d-flex justify-content-center pt-5 fs-4">
         No country found..!
       </div>
     </div>

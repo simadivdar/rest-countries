@@ -37,7 +37,6 @@ function pushRoute(countryName) {
   });
 }
 function setBorders(event) {
-  console.log(props.border)
   borderCountries.value = props.border.value.filter((border) =>
     event.includes(border.cca3)
   );
@@ -46,7 +45,7 @@ function setBorders(event) {
 
 <template>
   <div
-    class="vh-100 container-fluid mode " style="padding-top: 8rem;"
+    class="min-vh-100 container-fluid mode pb-5" style="padding-top: 8rem;"
   >
     <div class="row d-flex justify-content-center">
       <div class="col-10 col-lg-11 mb-5 position-relative">
